@@ -1,7 +1,25 @@
-<form id="complaintForm">
-  <input type="text" id="name" placeholder="Your Name" required>
-  <input type="text" id="issue" placeholder="Enter Problem" required>
-  <button type="submit">Submit</button>
-</form>
+<!DOCTYPE html>
+<html>
+<head>
+  <title>CampusCare</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="container">
+  <h2>Submit Complaint</h2>
+
+  <form id="form">
+    <input type="text" id="name" placeholder="Your Name" required>
+    <input type="text" id="issue" placeholder="Problem" required>
+    <input type="file" id="image">
+    <button type="submit">Submit</button>
+  </form>
+
+  <h3>Complaints</h3>
+  <div id="list"></div>
+</div>
 
 <script type="module" src="script.js"></script>
+</body>
+</html>
