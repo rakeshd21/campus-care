@@ -4,7 +4,7 @@ import { getFirestore } from "https://www.gstatic.com/firebasejs/10.7.1/firebase
 
 // Your config (PASTE YOURS HERE)
 const firebaseConfig = {
-  apiKey: "AIzaSyATDI89sphFyKNY7l7vG3VR8UO7e2nOfTQ",
+  apiKey: "your api key",
   authDomain: "campuscare-28f5d.firebaseapp.com",
   projectId: "campuscare-28f5d",
 };
