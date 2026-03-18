@@ -1,25 +1,187 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>CampusCare</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CampusCare — Student Portal</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<div class="container">
-  <h2>Submit Complaint</h2>
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-logo">
+    <div class="dot"></div>
+    Campus<em>Care</em>
+  </div>
+  <div class="nav-links">
+    <a href="index.html" class="nav-link active">Student Portal</a>
+    <a href="admin.html" class="nav-link">Admin</a>
+  </div>
+</nav>
 
-  <form id="form">
-    <input type="text" id="name" placeholder="Your Name" required>
-    <input type="text" id="issue" placeholder="Problem" required>
-    <input type="file" id="image">
-    <button type="submit">Submit</button>
-  </form>
-
-  <h3>Complaints</h3>
-  <div id="list"></div>
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-tag">🎓 Student Problem Portal</div>
+  <h1>Your Voice<br><span class="hi">Changes Campus</span></h1>
+  <p>Report problems, track status, and see your college improve — one issue at a time.</p>
 </div>
 
+<!-- TABS -->
+<div class="tabs">
+  <button class="tab-btn active" onclick="setTab('submit')">Submit Problem</button>
+  <button class="tab-btn" onclick="setTab('list')">All Reports</button>
+</div>
+
+<!-- SUBMIT PANEL -->
+<div class="panel active" id="tab-submit">
+  <div class="form-card">
+    <div class="card-title">Report a Problem</div>
+    <div class="card-sub">Describe the issue and we'll make sure it reaches the right team.</div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Your Name *</label>
+        <input type="text" id="name" placeholder="e.g. Ravi Kumar">
+      </div>
+      <div class="form-group">
+        <label>Roll Number</label>
+        <input type="text" id="rollNo" placeholder="e.g. 21CS042">
+      </div>
+    </div>
+
+    <div class="form-row full">
+      <div class="form-group">
+        <label>Category *</label>
+        <div class="cat-pills" id="catPills">
+          <button class="cat-pill active" data-cat="Infrastructure">🏗️ Infrastructure</button>
+          <button class="cat-pill" data-cat="Academics">📚 Academics</button>
+          <button class="cat-pill" data-cat="Hostel">🏠 Hostel / Mess</button>
+          <button class="cat-pill" data-cat="Transport">🚌 Transport</button>
+          <button class="cat-pill" data-cat="WiFi">📶 WiFi</button>
+          <button class="cat-pill" data-cat="Library">📖 Library</button>
+          <button class="cat-pill" data-cat="Sports">⚽ Sports</button>
+          <button class="cat-pill" data-cat="Other">💬 Other</button>
+        </div>
+        <input type="hidden" id="category" value="Infrastructure">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Problem Title *</label>
+        <input type="text" id="issue" placeholder="Short title of the issue">
+      </div>
+      <div class="form-group">
+        <label>Location</label>
+        <input type="text" id="location" placeholder="e.g. Block A, Lab 3">
+      </div>
+    </div>
+
+    <div class="form-row full">
+      <div class="form-group">
+        <label>Description</label>
+        <textarea id="description" placeholder="Describe the problem in detail..."></textarea>
+      </div>
+    </div>
+
+    <div class="form-row full">
+      <div class="form-group">
+        <label>Priority</label>
+        <div class="priority-group">
+          <button class="prio-btn low sel" onclick="setPrio('low',this)">🟢 Low</button>
+          <button class="prio-btn med"     onclick="setPrio('medium',this)">🟡 Medium</button>
+          <button class="prio-btn high"    onclick="setPrio('high',this)">🔴 High</button>
+        </div>
+        <input type="hidden" id="priority" value="low">
+      </div>
+    </div>
+
+    <div class="form-row full">
+      <div class="form-group">
+        <label>Attach Image (optional)</label>
+        <label class="file-label" for="image">
+          <span class="icon">📎</span>
+          <span id="fileText">Click to attach a photo of the issue</span>
+        </label>
+        <input type="file" id="image" accept="image/*" onchange="onFileChange(this)">
+        <div id="fileName"></div>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button class="btn btn-ghost" onclick="clearForm()">Clear</button>
+      <button class="btn btn-primary" id="submitBtn" onclick="submitComplaint()">
+        <span>Submit Report</span> →
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ALL REPORTS PANEL -->
+<div class="panel" id="tab-list">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+    <div>
+      <div style="font-size:1.1rem;font-weight:700">All Reports</div>
+      <div style="font-size:0.85rem;color:var(--text2);margin-top:2px">Live feed of submitted problems</div>
+    </div>
+    <button class="btn btn-ghost btn-sm" onclick="loadComplaints()">↻ Refresh</button>
+  </div>
+  <div id="list">
+    <div class="spinner"></div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
 <script type="module" src="script.js"></script>
+<script>
+function setTab(name) {
+  document.querySelectorAll('.tab-btn').forEach((b,i)=>b.classList.toggle('active',['submit','list'][i]===name));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  if(name==='list') window._loadComplaints && window._loadComplaints();
+}
+
+// Category pills
+document.querySelectorAll('.cat-pill').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    document.querySelectorAll('.cat-pill').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('category').value = btn.dataset.cat;
+  });
+});
+
+function setPrio(val,btn) {
+  document.querySelectorAll('.prio-btn').forEach(b=>b.classList.remove('sel'));
+  btn.classList.add('sel');
+  document.getElementById('priority').value = val;
+}
+
+function onFileChange(input) {
+  const file = input.files[0];
+  if(file) {
+    document.getElementById('fileName').textContent = '✓ ' + file.name;
+    document.getElementById('fileText').textContent = file.name;
+  }
+}
+
+function clearForm() {
+  ['name','rollNo','issue','location','description'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('image').value='';
+  document.getElementById('fileName').textContent='';
+  document.getElementById('fileText').textContent='Click to attach a photo of the issue';
+  document.querySelectorAll('.cat-pill').forEach((b,i)=>b.classList.toggle('active',i===0));
+  document.getElementById('category').value='Infrastructure';
+  setPrio('low', document.querySelector('.prio-btn.low'));
+}
+
+window.showToast = function(msg, type='ok') {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.className = `show ${type}`;
+  setTimeout(()=>t.className='', 3500);
+};
+</script>
 </body>
 </html>
