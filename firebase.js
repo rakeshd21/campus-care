@@ -11,7 +11,7 @@ const firebaseConfig = {
   projectId: "campuscare-28f5d",
   storageBucket: "campuscare-28f5d.firebasestorage.app",
   messagingSenderId: "sender id",
-  appId: "put api id",
+  appId: "1234",
   measurementId: "G-8EK3C4STF9"
 };
 
