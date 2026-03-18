@@ -1,4 +1,4 @@
-// ── Firebase Configuration ──
+e// ── Firebase Configuration ──
 // Get this from Firebase Console → Project Settings → Web App
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
@@ -10,7 +10,7 @@ const firebaseConfig = {
   authDomain: "campuscare-28f5d.firebaseapp.com",
   projectId: "campuscare-28f5d",
   storageBucket: "campuscare-28f5d.firebasestorage.app",
-  messagingSenderId: "1012511944489",
+  messagingSenderId: "sender id",
   appId: "put api id",
   measurementId: "G-8EK3C4STF9"
 };
