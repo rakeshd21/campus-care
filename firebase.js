@@ -6,7 +6,7 @@ import { getFirestore } from "https://www.gstatic.com/firebasejs/10.7.1/firebase
 import { getStorage } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyATDI89sphFyKNY7l7vG3VR8UO7e2nOfTQ",
+  apiKey: "api id",
   authDomain: "campuscare-28f5d.firebaseapp.com",
   projectId: "campuscare-28f5d",
   storageBucket: "campuscare-28f5d.firebasestorage.app",
